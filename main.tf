@@ -1,19 +1,22 @@
-provider "kubernetes" {}
 
 resource "kubernetes_deployment" "example" {
   metadata {
     name = "terraform-example"
+    #name = var.a.name
     labels = {
       test = "MyExampleApp"
+      #test = var.a.selector
     }
   }
 
   spec {
-    replicas = 3
-
+    replicas = 1
+    #replicas = var.a.replicas
+    
     selector {
       match_labels = {
         test = "MyExampleApp"
+        #test = var.a.selector
       }
     }
 
@@ -21,6 +24,7 @@ resource "kubernetes_deployment" "example" {
       metadata {
         labels = {
           test = "MyExampleApp"
+          #test = var.a.selector
         }
       }
 
@@ -28,15 +32,25 @@ resource "kubernetes_deployment" "example" {
         container {
           image = "nginx:1.7.8"
           name  = "example"
+          #image = var.a.image
+          #name  = var.a.cname
 
           resources {
             limits {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests {
+              #cpu    = "0.5"
+              #memory = "512Mi"
               cpu    = "250m"
               memory = "50Mi"
+              #cpu    = var.a.lcpu
+              #memory = var.a.lmemory
+            }
+            requests {
+              #cpu    = "250m"
+              #memory = "50Mi"
+              cpu    = "250m"
+              memory = "50Mi"
+              #cpu    = var.a.rcpu
+              #memory = var.a.rmemory
             }
           }
 
@@ -47,12 +61,12 @@ resource "kubernetes_deployment" "example" {
 
               http_header {
                 name  = "X-Custom-Header"
-                value = "Awesome"
+                value = "Awesome1"
               }
             }
 
-            initial_delay_seconds = 3
-            period_seconds        = 3
+            initial_delay_seconds = 600
+            period_seconds        = 600
           }
         }
       }

@@ -1,0 +1,11 @@
+variable "a" {
+  name     = "terraform.example"
+  replicas = 1
+  selector = "MyExampleApp"
+  image    = "nginx:1.7.8"
+  cname    = "example"
+  lcpu     = "250m"
+  lmemory  = "50Mi"
+  rcpu     = "250m"
+  rmemory  = "50Mi"
+}
